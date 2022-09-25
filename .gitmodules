@@ -1,0 +1,9 @@
+[submodule "reticulum/reticulum"]
+	path = reticulum/reticulum
+	url = https://github.com/mozilla/reticulum
+[submodule "dialog/dialog"]
+	path = dialog/dialog
+	url = https://github.com/mozilla/dialog.git
+[submodule "hubs/hubs"]
+	path = hubs/hubs
+	url = https://github.com/mozilla/hubs

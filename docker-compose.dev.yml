@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+
+  db:
+    ports:
+      - 5432:5432
+
+  mail:
+    ports:
+      - 2525:1025
+      - 8025:8025
+
+  hubs:
+    ports:
+      - 8080:8080
+
+  dialog:
+    ports:
+      - 4443:4443

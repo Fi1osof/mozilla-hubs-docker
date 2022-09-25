@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+
+  db:
+    tty: true
+    build:
+      context: ./postgres
+      network: ${NETWORK_NAME:-hubs-default}
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+
+  mail:
+    image: mailhog/mailhog
+
+  reticulum:
+    tty: true
+    env_file: .env
+    build:
+      context: ./reticulum
+      network: ${NETWORK_NAME:-hubs-default}
+    networks:
+      default:
+        aliases:
+          - hubs.local
+          - hubs-proxy.local
+          - hubs-assets.local
+          - hubs-link.local
+
+    ports:
+      - 4000:4000
+    command: iex -S mix phx.server
+
+  hubs:
+    tty: true
+    build:
+      context: ./hubs
+    command: npm run local
+
+  dialog:
+    tty: true
+    build:
+      context: ./dialog
+
+
+networks:
+  default:
+    name: ${NETWORK_NAME:-hubs-default}

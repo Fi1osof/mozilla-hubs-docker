@@ -8,8 +8,14 @@ RUN npm ci
 
 FROM node:lts-slim
 
+ARG PERMS_CERT
+ENV perms_key=$PERMS_CERT
+
 WORKDIR /app
 COPY --from=build /app /app
-RUN apt-get update && apt-get install -y jq curl dnsutils netcat
-COPY dialog/scripts/docker/run.sh /run.sh
+# RUN apt-get update && apt-get install -y jq curl dnsutils netcat
+# RUN apt-get install -y mc
+
+# COPY dialog/scripts/docker/run.sh /run.sh
+COPY scripts/docker/run.sh /run.sh
 CMD bash /run.sh

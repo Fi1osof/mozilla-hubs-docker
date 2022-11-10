@@ -1,8 +1,8 @@
-# Not production! Just for fun
+# Attension! Work in progress. Not for production
 
 ## Requirements
-- docker >= 20.10.14
-- docker-compose >= 1.25.0
+- docker 20.10.14
+- docker-compose 1.25.0
 
 # Before development
 
@@ -13,6 +13,7 @@ sudo tee -a /etc/hosts > /dev/null <<EOT
 127.0.0.1   hubs-proxy.local
 127.0.0.1   hubs-assets.local
 127.0.0.1   hubs-link.local
+127.0.0.1   dialog
 EOT
 ```
 
@@ -20,8 +21,8 @@ EOT
 
 ## clone repo with submodules
 ```bash
-git clone --recurse-submodules https://github.com/Fi1osof/moz-hubs-docker
-cd moz-hubs-docker
+git clone --recurse-submodules https://github.com/Fi1osof/mozilla-hubs-docker
+cd mozilla-hubs-docker
 ```
 
 ## first run db
@@ -39,4 +40,8 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build ret
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 ```
 
-## Visit https://hubs.local:8080
+### Visit https://dialog:4333 and accept self-signet certificate and close this window.
+
+### Visit https://hubs.local:4000 and accept self-signet certificate and close this window.
+
+### Visit https://hubs.local:8080 and accept self-signet certificate.

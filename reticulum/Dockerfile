@@ -8,10 +8,18 @@ RUN openssl req -x509 -newkey rsa:2048 -sha256 -days 36500 -nodes -keyout key.pe
 # reticulum
 FROM elixir:1.9-alpine
 
+ARG PERMS_KEY
+ENV PERMS_KEY=$PERMS_KEY
+
+# RUN   echo -e $(echo -e ${PERMS_KEY//\n/\\n}) 
+
 ENV POSTGREST_INTERNAL_HOSTNAME=db
 ENV DB_HOST=db
 ENV DIALOG_HOSTNAME=localhost
 ENV DIALOG_PORT=4443
+
+# https://hex.pm/docs/mirrors
+ENV HEX_MIRROR=https://cdn.jsdelivr.net/hex
 
 RUN apk update
 RUN apk add --no-cache bash openssl-dev openssl jq libstdc++ coreutils curl mc git
@@ -23,9 +31,21 @@ COPY --from=certr /certs .
 
 COPY reticulum .
 
+# COPY --from=certr /certs /certs
+# RUN cp ./priv /certs -r
+
 RUN mkdir -p storage/dev
 
 RUN mix local.hex --force
 RUN mix local.rebar --force
 RUN mix deps.get
 RUN mix ecto.create
+
+RUN echo $PERMS_KEY
+# CMD PERMS_KEY=${PERMS_KEY} iex -S mix phx.server
+
+# CMD echo -e $(echo -e ${PERMS_KEY//\n/\\n}) 
+
+# RUN PERMS_KEY="$PERMS_KEY" iex -S mix phx.server
+
+# RUN echo -e $(echo -e ${PERMS_KEY//\n/\\n}) 

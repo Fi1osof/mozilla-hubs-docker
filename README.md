@@ -40,7 +40,7 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build ret
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 ```
 
-### Visit https://dialog:4333 and accept self-signet certificate and close this window.
+### Visit https://dialog:4443 and accept self-signet certificate and close this window.
 
 ### Visit https://hubs.local:4000 and accept self-signet certificate and close this window.
 

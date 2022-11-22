@@ -11,8 +11,6 @@ FROM elixir:1.9-alpine
 ARG PERMS_KEY
 ENV PERMS_KEY=$PERMS_KEY
 
-# RUN   echo -e $(echo -e ${PERMS_KEY//\n/\\n}) 
-
 ENV POSTGREST_INTERNAL_HOSTNAME=db
 ENV DB_HOST=db
 ENV DIALOG_HOSTNAME=localhost
@@ -31,21 +29,9 @@ COPY --from=certr /certs .
 
 COPY reticulum .
 
-# COPY --from=certr /certs /certs
-# RUN cp ./priv /certs -r
-
 RUN mkdir -p storage/dev
 
 RUN mix local.hex --force
 RUN mix local.rebar --force
 RUN mix deps.get
 RUN mix ecto.create
-
-RUN echo $PERMS_KEY
-# CMD PERMS_KEY=${PERMS_KEY} iex -S mix phx.server
-
-# CMD echo -e $(echo -e ${PERMS_KEY//\n/\\n}) 
-
-# RUN PERMS_KEY="$PERMS_KEY" iex -S mix phx.server
-
-# RUN echo -e $(echo -e ${PERMS_KEY//\n/\\n}) 

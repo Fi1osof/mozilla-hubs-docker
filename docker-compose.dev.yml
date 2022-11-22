@@ -12,9 +12,20 @@ services:
       - 8025:8025
 
   hubs:
+    environment:
+      - LIVE_RELOAD=true
+    volumes:
+      - ./hubs/hubs/src:/app/src
     ports:
       - 8080:8080
 
   dialog:
     ports:
       - 4443:4443
+
+  reticulum:
+    volumes:
+      - ./reticulum/reticulum/config:/ret/config
+      - ./reticulum/reticulum/lib:/ret/lib
+      - ./reticulum/reticulum/rel:/ret/rel
+      - ./reticulum/reticulum/test:/ret/test

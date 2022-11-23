@@ -7,3 +7,6 @@
 [submodule "hubs/hubs"]
 	path = hubs/hubs
 	url = https://github.com/mozilla/hubs
+[submodule "spoke/spoke"]
+	path = spoke/spoke
+	url = https://github.com/mozilla/Spoke

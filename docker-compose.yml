@@ -49,6 +49,12 @@ services:
       args: 
         - PERMS_CERT=${PERMS_CERT}
 
+  spoke:
+    tty: true
+    env_file: .env
+    build:
+      context: ./spoke
+
 
 networks:
   default:

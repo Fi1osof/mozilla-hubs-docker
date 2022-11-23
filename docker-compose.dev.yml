@@ -23,6 +23,10 @@ services:
     ports:
       - 4443:4443
 
+  spoke:
+    ports:
+      - 9090:9090
+
   reticulum:
     volumes:
       - ./reticulum/reticulum/config:/ret/config

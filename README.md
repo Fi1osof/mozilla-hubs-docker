@@ -13,7 +13,8 @@ sudo tee -a /etc/hosts > /dev/null <<EOT
 127.0.0.1   hubs-proxy.local
 127.0.0.1   hubs-assets.local
 127.0.0.1   hubs-link.local
-127.0.0.1   dialog
+127.0.0.1   hubs-reticulum.local
+127.0.0.1   dialog.local
 EOT
 ```
 
@@ -23,6 +24,11 @@ EOT
 ```bash
 git clone --recurse-submodules https://github.com/Fi1osof/mozilla-hubs-docker
 cd mozilla-hubs-docker
+```
+
+## proxy-server
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build proxy
 ```
 
 ## Mail server
@@ -49,15 +55,24 @@ config :ret, Ret.Mailer, adapter: Bamboo.LocalAdapter
 with
 ```yml 
 config :ret, Ret.Mailer, adapter: Bamboo.LocalAdapter,
-  # add
   server: "mail",
   port: 1025,
   tls: :never,
   tls_verify: :verify_none,
-  # other config editable
   hostname: "hubs.local",
   username: "hubs@hubs.local",
   retries: 3
+```
+
+### Edit reticulum/reticulum/lib/ret_web/plugs/proxies.ex
+Replace 
+```yml 
+plug ReverseProxyPlug, upstream: "http://localhost:3000"
+```
+
+with
+```yml 
+plug ReverseProxyPlug, upstream: "http://postgrest:3000"
 ```
 
 ### run reticulum server
@@ -69,7 +84,7 @@ Visit https://hubs.local:4000 and accept self-signet certificate and close this 
 
 ## Dialog
 ```bash
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build dialog
+docker-compose up -d --build dialog
 ```
 Visit https://dialog:4443 and accept self-signet certificate and close this window.
 
@@ -85,6 +100,21 @@ Visit https://hubs.local:8080 and accept self-signet certificate.
 ## Spoke
 
 ```bash
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build spoke
+docker-compose up -d --build spoke
 ```
-Vitis https://hubs.local:9090 and accept self-signet certificate.
+Vitis https://hubs.local:4000/spoke
+
+
+## PostgREST
+
+```bash
+docker-compose up -d --build postgres
+```
+
+
+## Admin
+
+```bash
+docker-compose up -d --build admin
+```
+Vitis https://hubs.local:4000/admin

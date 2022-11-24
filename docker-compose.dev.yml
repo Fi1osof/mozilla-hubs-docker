@@ -1,6 +1,13 @@
 version: '3.7'
 
 services:
+  proxy:
+    ports:
+      - 4000:4000
+      - 8080:8080
+      - 4443:4443
+      - 9090:9090
+      - 8989:8989
 
   db:
     ports:
@@ -16,8 +23,10 @@ services:
       - LIVE_RELOAD=true
     volumes:
       - ./hubs/hubs/src:/app/src
+
+  admin:
     ports:
-      - 8080:8080
+      - 8989:8989
 
   dialog:
     ports:

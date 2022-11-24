@@ -1,0 +1,57 @@
+
+
+hubs.local:8080 {
+    tls internal
+    
+    reverse_proxy https://hubs:8080 {
+		# header_up Host {upstream_hostport}
+        transport http {
+            tls_insecure_skip_verify
+        }
+	}
+}
+
+
+hubs.local:4000 {
+    reverse_proxy https://reticulum:4000 {
+        transport http {
+            tls_insecure_skip_verify
+        }
+	}
+}
+
+
+hubs-assets.local:4000 {
+    reverse_proxy https://reticulum:4000 {
+        transport http {
+            tls_insecure_skip_verify
+        }
+	}
+}
+
+
+hubs.local:4443 {
+    reverse_proxy https://dialog:4443 {
+        transport http {
+            tls_insecure_skip_verify
+        }
+	}
+}
+
+
+hubs.local:9090 {
+    reverse_proxy https://spoke:9090 {
+        transport http {
+            tls_insecure_skip_verify
+        }
+	}
+}
+
+
+hubs.local:8989 {
+    reverse_proxy https://admin:8989 {
+        transport http {
+            tls_insecure_skip_verify
+        }
+	}
+}

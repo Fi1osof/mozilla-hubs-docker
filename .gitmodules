@@ -10,3 +10,6 @@
 [submodule "spoke/spoke"]
 	path = spoke/spoke
 	url = https://github.com/mozilla/Spoke
+[submodule "admin/admin"]
+	path = admin/admin
+	url = https://github.com/mozilla/hubs

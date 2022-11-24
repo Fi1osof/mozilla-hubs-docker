@@ -2,6 +2,19 @@ version: '3.7'
 
 services:
 
+  proxy:
+    environment:
+      - ACME_AGREE=true
+    build:
+      context: ./caddy
+    networks:
+      default:
+        aliases:
+          - hubs.local
+          - hubs-proxy.local
+          - hubs-assets.local
+          - hubs-link.local
+
   db:
     tty: true
     build:
@@ -9,6 +22,21 @@ services:
       network: ${NETWORK_NAME:-hubs-default}
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+
+  postgrest:
+    tty: true
+    env_file: .env
+    build:
+      context: ./postgrest
+    ports:
+      - 3000:3000
+    environment:
+      - PGRST_DB_URI=postgres://postgres:postgres@db/ret_dev
+      - PGRST_DB_SCHEMA=ret0_admin
+      - PGRST_JWT_SECRET=@reticulum-jwk.json
+      - PGRST_JWT_AUD=ret_perms
+      - PGRST_JWT_ROLE_CLAIM_KEY=.postgrest_role
+
 
   mail:
     image: mailhog/mailhog
@@ -23,22 +51,18 @@ services:
         - PERMS_KEY=${PERMS_KEY}
     volumes:
       - storage:/ret/storage/dev
-    networks:
-      default:
-        aliases:
-          - hubs.local
-          - hubs-proxy.local
-          - hubs-assets.local
-          - hubs-link.local
-
-    ports:
-      - 4000:4000
     command: iex -S mix phx.server
 
   hubs:
     tty: true
     build:
       context: ./hubs
+    command: npm run local
+
+  admin:
+    tty: true
+    build:
+      context: ./admin
     command: npm run local
 
   dialog:
@@ -48,13 +72,25 @@ services:
       context: ./dialog
       args: 
         - PERMS_CERT=${PERMS_CERT}
+    networks:
+      default:
+        aliases:
+          - dialog.local
 
   spoke:
     tty: true
     env_file: .env
     build:
       context: ./spoke
-
+    environment:
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - ROUTER_BASE_PATH=/spoke
+      - BASE_ASSETS_PATH=https://hubs.local:9090/
+      - HUBS_SERVER=hubs.local:4000
+      - RETICULUM_SERVER=hubs.local:4000
+      - NON_CORS_PROXY_DOMAINS=hubs.local:4000,hubs.local:9090,hubs.local,localhost,assets-prod.reticulum.io,uploads-prod.reticulum.io
+      - CORS_PROXY_SERVER=hubs-proxy.local
+    command: yarn start
 
 networks:
   default:

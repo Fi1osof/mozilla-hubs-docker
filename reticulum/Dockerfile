@@ -29,6 +29,10 @@ COPY --from=certr /certs .
 
 COPY reticulum .
 
+# For postgREST
+# https://github.com/mozilla/hubs-ops/wiki/Running-PostgREST-locally
+COPY reticulum-jwk.json .
+
 RUN mkdir -p storage/dev
 
 RUN mix local.hex --force

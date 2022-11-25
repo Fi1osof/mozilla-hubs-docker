@@ -22,7 +22,7 @@ EOT
 
 ## clone repo with submodules
 ```bash
-git clone --recurse-submodules https://github.com/Fi1osof/mozilla-hubs-docker
+git clone --depth=1 --recurse-submodules https://github.com/Fi1osof/mozilla-hubs-docker
 cd mozilla-hubs-docker
 ```
 

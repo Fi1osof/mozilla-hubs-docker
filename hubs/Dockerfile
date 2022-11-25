@@ -2,8 +2,8 @@ FROM node:lts as build
 
 RUN apt-get update
 
-RUN apt-get install bash mc curl git
-RUN apt-get install python3
+RUN apt-get install -y bash mc curl git
+RUN apt-get install -y python3
 
 WORKDIR /app
 COPY hubs .

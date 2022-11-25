@@ -1,4 +1,4 @@
-FROM node:lts-slim
+FROM node:16
 
 WORKDIR /app
 COPY spoke .

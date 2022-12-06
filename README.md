@@ -54,7 +54,7 @@ config :ret, Ret.Mailer, adapter: Bamboo.LocalAdapter
 
 with
 ```yml 
-config :ret, Ret.Mailer, adapter: Bamboo.LocalAdapter,
+config :ret, Ret.Mailer, adapter: Bamboo.SMTPAdapter,
   server: "mail",
   port: 1025,
   tls: :never,
@@ -62,17 +62,6 @@ config :ret, Ret.Mailer, adapter: Bamboo.LocalAdapter,
   hostname: "hubs.local",
   username: "hubs@hubs.local",
   retries: 3
-```
-
-### Edit reticulum/reticulum/lib/ret_web/plugs/proxies.ex
-Replace 
-```yml 
-plug ReverseProxyPlug, upstream: "http://localhost:3000"
-```
-
-with
-```yml 
-plug ReverseProxyPlug, upstream: "http://postgrest:3000"
 ```
 
 ### run reticulum server

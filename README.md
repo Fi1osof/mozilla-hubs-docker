@@ -97,7 +97,7 @@ Vitis https://hubs.local:4000/spoke
 ## PostgREST
 
 ```bash
-docker-compose up -d --build postgres
+docker-compose up -d --build postgrest
 ```
 
 

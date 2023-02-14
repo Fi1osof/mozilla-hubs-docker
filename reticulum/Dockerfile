@@ -16,9 +16,6 @@ ENV DB_HOST=db
 ENV DIALOG_HOSTNAME=localhost
 ENV DIALOG_PORT=4443
 
-# https://hex.pm/docs/mirrors
-ENV HEX_MIRROR=https://cdn.jsdelivr.net/hex
-
 RUN apk update
 RUN apk add --no-cache bash openssl-dev openssl jq libstdc++ coreutils curl mc git
 RUN apk add --no-cache ansible inotify-tools
@@ -34,6 +31,9 @@ COPY reticulum .
 COPY reticulum-jwk.json .
 
 RUN mkdir -p storage/dev
+
+# https://hex.pm/docs/mirrors
+ENV HEX_MIRROR=https://cdn.jsdelivr.net/hex
 
 RUN mix local.hex --force
 RUN mix local.rebar --force

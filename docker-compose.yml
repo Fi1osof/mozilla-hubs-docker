@@ -72,10 +72,7 @@ services:
       context: ./dialog
       args: 
         - PERMS_CERT=${PERMS_CERT}
-    networks:
-      default:
-        aliases:
-          - dialog.local
+    network_mode: "host"
 
   spoke:
     tty: true
